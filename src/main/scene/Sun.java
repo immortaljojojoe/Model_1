@@ -9,7 +9,7 @@ public class Sun {
     public Sun(int size){
         sun_radius =size;
         x=-size/2;
-        y=100;
+        y = 70;
     }
     public int getSun_radius(){
         return sun_radius;
