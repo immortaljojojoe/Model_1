@@ -11,7 +11,7 @@ public class Player {
     public int playerX = 210;
     //the lower coordinate of the player
     public int playerY = 600;
-    public int player_col = (playerX / (1600 / col));
+
     public boolean moveDir = true;//the direction of moving
     //private int player_width=20;
     int energy_up = 0;
@@ -21,7 +21,7 @@ public class Player {
     private BufferedImage left, right;
     private int row = 16, col = 32;
     public int player_row = (playerY / (800 / row));
-
+    public int player_col = (playerX / (1600 / col));
     public Player() {
         try {
             left = ImageIO.read(getClass().getResourceAsStream("/left.png"));
