@@ -46,4 +46,17 @@ public class MapGenerator {
     public void setblockvalue(int value, int row, int col) {
         map[row][col].setValue(value);
     }
+
+    //Give back The Current GroundLevel based on the player col given
+    public int currGround(int player_col) {
+        int curr = map[player_col].length * blockHeight;
+        for (int j = 0; j < map[player_col].length; j++) {
+            if (map[player_col][j].getValue() != 0) {
+                curr = j * blockHeight;
+                break;
+            }
+        }
+        return curr;
+    }
+
 }

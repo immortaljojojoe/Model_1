@@ -22,6 +22,7 @@ public class Player {
     private int row = 16, col = 32;
     public int player_row = (playerY / (800 / row));
     public int player_col = (playerX / (1600 / col));
+    public int groundLevel = 600;
     public Player() {
         try {
             left = ImageIO.read(getClass().getResourceAsStream("/left.png"));
@@ -66,19 +67,25 @@ public class Player {
         if (energy_up != 0) {
             playerY -= energy_up;
             energy_up--;
-        } else if (playerY < 600) {
+        } else if (playerY < groundLevel) {
             energy_down++;
             playerY += energy_down;
         } else {
-            playerY = 600;
+            playerY = groundLevel;
+            //向下冲击展示
+            //System.out.println(energy_down+""+jumpEnergy);
+            if (energy_down > 14) {
+                hitpoint -= (energy_down - 13);
+                energy_down = 0;
+            }
         }
     }
 
     public void onTheGround() {
-        if (playerY > 600) {
-            playerY = 600;
+        if (playerY > groundLevel) {
+            playerY = groundLevel;
             energy_up = 0;
-        } else if (playerY == 600) {
+        } else if (playerY == groundLevel) {
             jump();
         }
     }
@@ -88,5 +95,9 @@ public class Player {
             energy_up = jumpEnergy;
             energy_down = 0;
         }
+    }
+
+    public boolean alive() {
+        return (hitpoint > 0);
     }
 }

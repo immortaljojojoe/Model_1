@@ -34,6 +34,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     GamePlay(int width, int height) {
         this.width = width;
         this.height = height;
+        //开始游戏
+        play = true;
         mapGenerator = new MapGenerator(width, height);
         player = new Player();
         addKeyListener(this);
@@ -44,28 +46,40 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     }
 
     public void paint(Graphics g) {
-        //天空
-        g.setColor(sky.getSky_color());
-        g.fillRect(0, 0, width - 1, height - 1);
-        //太阳
-        g.setColor(sun.getColor());
-        g.fillOval(sun.x(),sun.y(),sun.getSun_radius()*2,sun.getSun_radius()*2);
-        //地图
-        Graphics2D g2D = (Graphics2D) g;
-        mapGenerator.draw(g2D);
-        //g2D.fillOval(200,200,sun.getSun_radius()*2,sun.getSun_radius()*2);
+        if (player.alive()) {
+            //天空
+            g.setColor(sky.getSky_color());
+            g.fillRect(0, 0, width - 1, height - 1);
+            //太阳
+            g.setColor(sun.getColor());
+            g.fillOval(sun.x(), sun.y(), sun.getSun_radius() * 2, sun.getSun_radius() * 2);
+            //地图
+            Graphics2D g2D = (Graphics2D) g;
+            mapGenerator.draw(g2D);
+            //g2D.fillOval(200,200,sun.getSun_radius()*2,sun.getSun_radius()*2);
 
-        //data set
-        g.setColor(Color.BLACK);
-        g.setFont(new Font("cerif", Font.BOLD, 20));
-        g.drawString("X.Postion:" + (player.player_col), 1400, 30);
-        g.drawString("Y.Postion:" + (11 - player.player_row), 1400, 50);
-        g.drawString("FPS:" + 1000 / delay, 1400, 70);
-        g.setFont(new Font("cerif", Font.BOLD, 15));
-        g.drawString("HP:" + player.hitpoint, 5, 20);
+            //data set
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("cerif", Font.BOLD, 20));
+            g.drawString("X.Postion:" + (player.player_col), 1400, 30);
+            g.drawString("Y.Postion:" + (11 - player.player_row), 1400, 50);
+            g.drawString("FPS:" + 1000 / delay, 1400, 70);
+            g.setFont(new Font("cerif", Font.BOLD, 15));
+            g.drawString("HP:" + player.hitpoint, 5, 20);
+            //health bar
+            g.setColor(Color.BLACK);
+            g.fillRect(68, 5, 104, 16);
+            g.setColor(Color.RED);
+            g.fillRect(70, 7, player.hitpoint, 12);
 
-        player.drawPlayer(g);
-        g.dispose();
+            player.drawPlayer(g);
+            g.dispose();
+        } else {
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("cerif", Font.BOLD, 20));
+            g.drawString("Game Over", width / 2, height / 2);
+        }
+
 
     }
 
@@ -77,8 +91,10 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             //walk Left and Right
             if (rightkeypressed) {
                 player.moveRight();
+                player.groundLevel = mapGenerator.currGround(player.player_col);
             } else if (leftkeypressed) {
                 player.moveLeft();
+                player.groundLevel = mapGenerator.currGround(player.player_col);
             }
             //margin checking
             player.marginDetection();
@@ -114,14 +130,12 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     }
 
     private void moveRight() {
-        play = true;
         rightkeypressed = true;
         leftkeypressed = false;
         player.moveDir = true;
     }
 
     private void moveLeft() {
-        play = true;
         leftkeypressed = true;
         rightkeypressed = false;
         player.moveDir = false;
