@@ -18,7 +18,7 @@ public class Sky {
     }
 
     public void refreshColor() {
-        if(counter==10){
+        if (counter == 100) {
             if (!darkening && !brighten && red < 251) {
                 if (red < 200) sky_color = new Color(red++, green, blue);
                 if (red >= 200) sky_color = new Color(red++, green--, blue--);

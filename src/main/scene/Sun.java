@@ -3,6 +3,7 @@ package scene;
 import java.awt.*;
 
 public class Sun {
+    private int counter = 0;
     private int sun_radius;
     private int x,y;
     private Color sun_color= new Color(240,150,50);
@@ -24,8 +25,15 @@ public class Sun {
         return sun_color;
     }
     public void refreshPlace(){
-        if(x>3700){x=-280;}
-        x++;
+        counter++;
+        if (counter >= 10) {
+            counter = 0;
+            if (x > 3700) {
+                x = -280;
+            }
+            x++;
+        }
+
     }
 
 }
