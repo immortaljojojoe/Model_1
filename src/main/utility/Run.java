@@ -6,8 +6,8 @@ public class Run {
 
     public static void main(String[] args) {
         //图像格式
-        int width = 1920;
-        int height = 1080;
+        int width = 1600;
+        int height = 800;
 
         JFrame obj = new JFrame();
         Gameplay gameplay = new Gameplay(width,height);

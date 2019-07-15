@@ -33,11 +33,16 @@ public class Gameplay extends JPanel implements ActionListener {
     }
 
     public void paint(Graphics g) {
+        //天空
         g.setColor(sky.getSky_color());
         g.fillRect(0, 0, width - 1, height - 1);
+        //太阳
         g.setColor(sun.getColor());
         g.fillOval(sun.x(),sun.y(),sun.getSun_radius()*2,sun.getSun_radius()*2);
-        mapGenerator.draw((Graphics2D) g);
+        //地图
+        Graphics2D g2D = (Graphics2D) g;
+        mapGenerator.draw(g2D);
+        //g2D.fillOval(200,200,sun.getSun_radius()*2,sun.getSun_radius()*2);
         g.dispose();
 
     }
