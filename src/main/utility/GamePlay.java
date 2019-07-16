@@ -15,7 +15,7 @@ import java.awt.event.KeyListener;
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private boolean play = false;
     int width, height;
-    private int delay = 15;
+    private int delay = 20;
     private Timer timer;
     // 天空
     private Sky sky= new Sky();
@@ -91,15 +91,17 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             //walk Left and Right
             if (rightkeypressed) {
                 player.moveRight();
-                player.groundLevel = mapGenerator.currGround(player.player_col);
+
             } else if (leftkeypressed) {
                 player.moveLeft();
-                player.groundLevel = mapGenerator.currGround(player.player_col);
+
             }
             //margin checking
             player.marginDetection();
             //Jumping UI 2.0
             player.jumping();
+            player.groundLevel = mapGenerator.currGround(player.player_col);
+            System.out.println(player.groundLevel);
 
             player.player_col = (player.playerX / (width / col));
             player.player_row = (player.playerY / (height / row));

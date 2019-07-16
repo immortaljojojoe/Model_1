@@ -45,11 +45,19 @@ public class Player {
     }
 
     public void moveRight() {
-        playerX += speed;
+        if (groundLevel >= playerY) {
+            playerX += speed;
+        } else {
+            playerX -= speed + 3;
+        }
     }
 
     public void moveLeft() {
-        playerX -= speed;
+        if (groundLevel >= playerY) {
+            playerX -= speed;
+        } else {
+            playerX += speed + 3;
+        }
     }
 
     public void marginDetection() {
@@ -71,11 +79,14 @@ public class Player {
             energy_down++;
             playerY += energy_down;
         } else {
-            playerY = groundLevel;
+            if (playerY - 30 <= groundLevel) {
+                playerY = groundLevel;
+            }
+
             //向下冲击展示
             //System.out.println(energy_down+""+jumpEnergy);
-            if (energy_down > 14) {
-                hitpoint -= (energy_down - 13);
+            if (energy_down > 20) {
+                hitpoint -= (energy_down - 20);
                 energy_down = 0;
             }
         }

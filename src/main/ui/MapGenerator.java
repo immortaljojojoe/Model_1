@@ -18,6 +18,7 @@ public class MapGenerator {
         int numBlockX = width / blockWidth;
         map = new Block[numBlockX][numBlockY];
         //System.out.println(numBlockY+""+numBlockX);
+
         for (int i = 0; i < numBlockX; i++) {
             for (int j = 0; j < numBlockY; j++) {
                 if (j > (numBlockY / 4 * 3)) {
@@ -30,6 +31,14 @@ public class MapGenerator {
 
             }
         }
+        map[3][12] = new Block_001dirt();
+        map[3][11] = new Block_001dirt();
+        map[3][10] = new Block_002grass();
+        map[7][11] = new Block_002grass();
+        map[8][11] = new Block_001dirt();
+        map[9][11] = new Block_002grass();
+        map[8][10] = new Block_002grass();
+
 
     }
 
