@@ -7,6 +7,7 @@ import scene.Blocks.Block_002grass;
 import java.awt.*;
 
 public class MapGenerator {
+    //地图（先是x再是y）
     private Block[][] map;
     private int blockWidth;
     private int blockHeight;
@@ -36,7 +37,7 @@ public class MapGenerator {
         map[3][10] = new Block_002grass();
         map[7][11] = new Block_002grass();
         map[8][11] = new Block_001dirt();
-        map[9][11] = new Block_002grass(); 
+        map[9][11] = new Block_002grass();
         map[8][10] = new Block_002grass();
 
 

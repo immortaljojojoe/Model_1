@@ -13,9 +13,15 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
-    private boolean play = false;
+    //界面长与宽
     int width, height;
+    //游戏开始
+    //TODO 开始界面的设计
+    private boolean play = false;
+    //每一帧的速度
+    //修改以改变游戏速度
     private int delay = 20;
+    //计时器
     private Timer timer;
     // 天空
     private Sky sky= new Sky();
@@ -23,11 +29,12 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private Sun sun= new Sun(50);
     //地图块 MapGenerator[i][j];
     private MapGenerator mapGenerator;
-
-    private boolean rightkeypressed = false;
-    private boolean leftkeypressed = false;
+    //检测左右键是否被按下
+    private boolean rightKeyPressed = false;
+    private boolean leftKeyPressed = false;
+    //人物
     private Player player;
-
+    //地图图块个数
     private int row = 16, col = 32;
 
 
@@ -59,19 +66,24 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             //g2D.fillOval(200,200,sun.getSun_radius()*2,sun.getSun_radius()*2);
 
             //data set
+            //测试数据
+            //x轴位置（图块）校对版本
             g.setColor(Color.BLACK);
             g.setFont(new Font("cerif", Font.BOLD, 20));
             g.drawString("X.Postion:" + (player.player_col), 1400, 30);
+            //y轴位置（图块）校对版本
             g.drawString("Y.Postion:" + (11 - player.player_row), 1400, 50);
             g.drawString("FPS:" + 1000 / delay, 1400, 70);
+            //血量展示
             g.setFont(new Font("cerif", Font.BOLD, 15));
             g.drawString("HP:" + player.hitpoint, 5, 20);
             //health bar
+            //血条展示
             g.setColor(Color.BLACK);
             g.fillRect(68, 5, 104, 16);
             g.setColor(Color.RED);
             g.fillRect(70, 7, player.hitpoint, 12);
-
+            //人物绘画
             player.drawPlayer(g);
             g.dispose();
         } else {
@@ -85,14 +97,16 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         timer.start();
+        //天空变色
         sky.refreshColor();
+        //太阳移动
         sun.refreshPlace();
         if (play) {
             //walk Left and Right
-            if (rightkeypressed) {
+            if (rightKeyPressed) {
                 player.moveRight();
 
-            } else if (leftkeypressed) {
+            } else if (leftKeyPressed) {
                 player.moveLeft();
 
             }
@@ -114,9 +128,9 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
     public void keyReleased(KeyEvent e) {
         if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
-            rightkeypressed = false;
+            rightKeyPressed = false;
         } else if (e.getKeyCode() == KeyEvent.VK_LEFT) {
-            leftkeypressed = false;
+            leftKeyPressed = false;
         }
     }
 
@@ -132,14 +146,14 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     }
 
     private void moveRight() {
-        rightkeypressed = true;
-        leftkeypressed = false;
+        rightKeyPressed = true;
+        leftKeyPressed = false;
         player.moveDir = true;
     }
 
     private void moveLeft() {
-        leftkeypressed = true;
-        rightkeypressed = false;
+        leftKeyPressed = true;
+        rightKeyPressed = false;
         player.moveDir = false;
     }
 }
