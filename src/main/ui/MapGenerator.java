@@ -39,6 +39,9 @@ public class MapGenerator {
         map[8][11] = new Block_001dirt();
         map[9][11] = new Block_002grass();
         map[8][10] = new Block_002grass();
+        map[7][12] = new Block_001dirt();
+        map[8][12] = new Block_001dirt();
+        map[9][12] = new Block_001dirt();
 
 
     }

@@ -2,15 +2,13 @@ package utility;
 
 import data.Player;
 import scene.Sky;
+import scene.SpecialEffect.SpecialEffect;
 import scene.Sun;
 import ui.MapGenerator;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.*;
 
 public class GamePlay extends JPanel implements KeyListener, ActionListener {
     //界面长与宽
@@ -29,6 +27,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private Sun sun= new Sun(50);
     //地图块 MapGenerator[i][j];
     private MapGenerator mapGenerator;
+    //特效
+    private SpecialEffect specialEffect;
     //检测左右键是否被按下
     private boolean rightKeyPressed = false;
     private boolean leftKeyPressed = false;
@@ -44,6 +44,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         //开始游戏
         play = true;
         mapGenerator = new MapGenerator(width, height);
+        specialEffect = new SpecialEffect();
         player = new Player();
         addKeyListener(this);
         setFocusable(true);
@@ -77,12 +78,25 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             //血量展示
             g.setFont(new Font("cerif", Font.BOLD, 15));
             g.drawString("HP:" + player.hitpoint, 5, 20);
+            //子弹剩余数
+            g.drawString("Ammo(AK47):" + specialEffect.ammoLeft(), 300, 15);
+            if (specialEffect.reloading()) {
+                g.setColor(Color.BLUE);
+                g.drawString("Reloading...", 300, 39);
+                g.setColor(Color.DARK_GRAY);
+                g.fillRect(400, 30, 100, 12);
+                g.setColor(Color.WHITE);
+                g.fillRect(402, 31, specialEffect.getReloadTime() / 2, 10);
+            }
             //health bar
             //血条展示
             g.setColor(Color.BLACK);
             g.fillRect(68, 5, 104, 16);
             g.setColor(Color.RED);
             g.fillRect(70, 7, player.hitpoint, 12);
+            //特效绘画
+            specialEffect.drawEffect((Graphics2D) g);
+
             //人物绘画
             player.drawPlayer(g);
             g.dispose();
@@ -101,6 +115,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         sky.refreshColor();
         //太阳移动
         sun.refreshPlace();
+        specialEffect.renewEffect();
         if (play) {
             //walk Left and Right
             if (rightKeyPressed) {
@@ -115,7 +130,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             //Jumping UI 2.0
             player.jumping();
             player.groundLevel = mapGenerator.currGround(player.player_col);
-            System.out.println(player.groundLevel);
+            //System.out.println(player.groundLevel);
 
             player.player_col = (player.playerX / (width / col));
             player.player_row = (player.playerY / (height / row));
@@ -141,7 +156,14 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             moveLeft();
         } else if (e.getKeyCode() == KeyEvent.VK_UP) {
             player.onTheGround();
+        } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (player.moveDir) {
+                specialEffect.addBullet(player.playerX + 40, player.playerY - 55, player.moveDir);
+            } else {
+                specialEffect.addBullet(player.playerX - 40, player.playerY - 55, player.moveDir);
+            }
 
+            //System.out.println("bullet added");
         }
     }
 

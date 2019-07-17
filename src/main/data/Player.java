@@ -41,15 +41,18 @@ public class Player {//玩家专属class
     //修改以改变人物奔跑速度（默认基值 4）《《《《《《《《《《《《《《《《《《《《《《
     int speed = 4;//the moving speed
     //人物图片
-    private BufferedImage left, right;
+    private BufferedImage playerLeft, playerRight;
+    private BufferedImage ak47Left, ak47Right;
 
     //玩家所在行与列
     public int player_row = (playerY / (800 / row));
     public Player() {
         try {
             //图片读取 图片根目录 Pics
-            left = ImageIO.read(getClass().getResourceAsStream("/playerLeft.png"));
-            right = ImageIO.read(getClass().getResourceAsStream("/playerRight.png"));
+            playerLeft = ImageIO.read(getClass().getResourceAsStream("/playerLeft.png"));
+            playerRight = ImageIO.read(getClass().getResourceAsStream("/playerRight.png"));
+            ak47Left = ImageIO.read(getClass().getResourceAsStream("/ak47_left.png"));
+            ak47Right = ImageIO.read(getClass().getResourceAsStream("/ak47_right.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -58,9 +61,11 @@ public class Player {//玩家专属class
     //将玩家画出来
     public void drawPlayer(Graphics g) {
         if (moveDir) {
-            g.drawImage(right, playerX - 14, playerY - 72, null);
+            g.drawImage(playerRight, playerX - 14, playerY - 72, null);
+            g.drawImage(ak47Right, playerX - 17, playerY - 56, null);
         } else {
-            g.drawImage(left, playerX - 14, playerY - 72, null);
+            g.drawImage(playerLeft, playerX - 14, playerY - 72, null);
+            g.drawImage(ak47Left, playerX - 56, playerY - 56, null);
         }
     }
 
@@ -93,7 +98,7 @@ public class Player {//玩家专属class
         if (playerX >= 1580) {
             playerX = 1580;
         }
-        //left margin detection
+        //playerLeft margin detection
         if (playerX <= 15) {
             playerX = 15;
         }
