@@ -20,7 +20,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     private boolean play = false;
     //每一帧的速度
     //修改以改变游戏速度
-    private int delay = 20;
+    private int delay = 15;
     //计时器
     private Timer timer;
     // 天空

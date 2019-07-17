@@ -18,6 +18,9 @@ public class Player {//玩家专属class
     //玩家站立海拔，以玩家脚踩高度（最低y值）
     //TODO 用currGround（GamePlay）改变初始值
     public int playerY = 600;
+    //地图方格个数 row为行数 col为列数（包括空气方块）、
+    //不建议修改《《《《《《《《《《《《《《《《《《《《《《《《
+    private int row = 16, col = 32;
 
     //the direction of moving
     //玩家面向方向
@@ -39,16 +42,14 @@ public class Player {//玩家专属class
     int speed = 4;//the moving speed
     //人物图片
     private BufferedImage left, right;
-    //地图方格个数 row为行数 col为列数（包括空气方块）、
-    //不建议修改《《《《《《《《《《《《《《《《《《《《《《《《
-    private int row = 16, col = 32;
+
     //玩家所在行与列
     public int player_row = (playerY / (800 / row));
     public Player() {
         try {
             //图片读取 图片根目录 Pics
-            left = ImageIO.read(getClass().getResourceAsStream("/left.png"));
-            right = ImageIO.read(getClass().getResourceAsStream("/right.png"));
+            left = ImageIO.read(getClass().getResourceAsStream("/playerLeft.png"));
+            right = ImageIO.read(getClass().getResourceAsStream("/playerRight.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
