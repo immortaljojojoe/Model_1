@@ -5,22 +5,17 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-public class Player {//玩家专属class
+public class Player {
+    public int player_col = 50;
     // HP :血量
     public int hitpoint = 100;
-
-    //the coordinate of the center of the player
-    //玩家x轴中心坐标
-    //修改以改变初始站立x坐标（默认基值 210）《《《《《《《《《《《《《《《《《《《《《《《《《《《《《
-    public int playerX = 210;
 
     //the lower coordinate of the player
     //玩家站立海拔，以玩家脚踩高度（最低y值）
     //TODO 用currGround（GamePlay）改变初始值
     public int playerY = 600;
-    //地图方格个数 row为行数 col为列数（包括空气方块）、
-    //不建议修改《《《《《《《《《《《《《《《《《《《《《《《《
-    private int row = 16, col = 32;
+    //玩家所在行与列
+    public int player_row = (playerY / 50);
 
     //the direction of moving
     //玩家面向方向
@@ -28,7 +23,8 @@ public class Player {//玩家专属class
     //初始地面高度，按照玩家站立位置决定
     //TODO 按照玩家站立列数来改变初始值
     public int groundLevel = 600;
-    public int player_col = (playerX / (1600 / col));
+    //玩家专属class
+    private Item item;
     //private int player_width=20;
     //弹跳力剩余
     int energy_up = 0;
@@ -42,17 +38,18 @@ public class Player {//玩家专属class
     int speed = 4;//the moving speed
     //人物图片
     private BufferedImage playerLeft, playerRight;
-    private BufferedImage ak47Left, ak47Right;
-
-    //玩家所在行与列
-    public int player_row = (playerY / (800 / row));
+    //地图方格个数 row为行数 col为列数（包括空气方块）、
+    //不建议修改《《《《《《《《《《《《《《《《《《《《《《《《
+    private int row = 16, col = 100;
     public Player() {
+        item = new Item();
+        item.addWeapon("desertEagle");
+        item.addWeapon("ak47");
+
         try {
             //图片读取 图片根目录 Pics
             playerLeft = ImageIO.read(getClass().getResourceAsStream("/playerLeft.png"));
             playerRight = ImageIO.read(getClass().getResourceAsStream("/playerRight.png"));
-            ak47Left = ImageIO.read(getClass().getResourceAsStream("/ak47_left.png"));
-            ak47Right = ImageIO.read(getClass().getResourceAsStream("/ak47_right.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -61,25 +58,23 @@ public class Player {//玩家专属class
     //将玩家画出来
     public void drawPlayer(Graphics g) {
         if (moveDir) {
-            g.drawImage(playerRight, playerX - 14, playerY - 72, null);
-            g.drawImage(ak47Right, playerX - 17, playerY - 56, null);
+            g.drawImage(playerRight, 791, playerY - 72, null);
         } else {
-            g.drawImage(playerLeft, playerX - 14, playerY - 72, null);
-            g.drawImage(ak47Left, playerX - 56, playerY - 56, null);
+            g.drawImage(playerLeft, 782, playerY - 72, null);
         }
+        item.getCurrWeapon().drawWeapon((Graphics2D) g, playerY, moveDir);
     }
 
     //返回玩家面冲方向
     public boolean getdir() {
         return moveDir;
     }
+    /*
 
     //向右移动，默认右键已经按下
     public void moveRight() {
         if (groundLevel >= playerY) {
             playerX += speed;
-        } else {
-            playerX -= speed + 3;
         }
     }
 
@@ -87,22 +82,21 @@ public class Player {//玩家专属class
     public void moveLeft() {
         if (groundLevel >= playerY) {
             playerX -= speed;
-        } else {
-            playerX += speed + 3;
         }
     }
 
     //边缘检测， 检测是不是撞到墙了
     public void marginDetection() {
         //Right margin detection
-        if (playerX >= 1580) {
-            playerX = 1580;
+        if (playerX >= 2480) {
+            playerX = 2480;
         }
         //playerLeft margin detection
-        if (playerX <= 15) {
-            playerX = 15;
+        if (playerX <= -2465) {
+            playerX = -2465;
         }
     }
+    */
 
     //跳跃时计算向上和向下冲击力
     public void jumping() {
@@ -147,5 +141,13 @@ public class Player {//玩家专属class
     //检测血量是否低于0
     public boolean alive() {
         return (hitpoint > 0);
+    }
+
+    public void gunChange() {
+        item.gunChange();
+    }
+
+    public Item getItem() {
+        return item;
     }
 }

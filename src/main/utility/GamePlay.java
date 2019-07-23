@@ -7,10 +7,13 @@ import scene.Sun;
 import ui.MapGenerator;
 
 import javax.swing.*;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
 import java.awt.event.*;
 
-public class GamePlay extends JPanel implements KeyListener, ActionListener {
+public class GamePlay extends JPanel implements KeyListener, ActionListener, MouseInputListener {
+    //鼠标当前位置
+    private int x, y;
     //界面长与宽
     int width, height;
     //游戏开始
@@ -35,7 +38,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
     //人物
     private Player player;
     //地图图块个数
-    private int row = 16, col = 32;
+    private int row = 16, col = 100;
 
 
     GamePlay(int width, int height) {
@@ -43,10 +46,11 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         this.height = height;
         //开始游戏
         play = true;
-        mapGenerator = new MapGenerator(width, height);
+        mapGenerator = new MapGenerator(row, col);
         specialEffect = new SpecialEffect();
         player = new Player();
         addKeyListener(this);
+        addMouseListener(this);
         setFocusable(true);
         setFocusTraversalKeysEnabled(false);
         timer = new Timer(delay, this);
@@ -79,7 +83,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             g.setFont(new Font("cerif", Font.BOLD, 15));
             g.drawString("HP:" + player.hitpoint, 5, 20);
             //子弹剩余数
-            g.drawString("Ammo(AK47):" + specialEffect.ammoLeft(), 300, 15);
+            g.drawString("Ammo(" + player.getItem().getCurrWeaponName() + "):" + specialEffect.ammoLeft(), 300, 15);
             if (specialEffect.reloading()) {
                 g.setColor(Color.BLUE);
                 g.drawString("Reloading...", 300, 39);
@@ -99,6 +103,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
 
             //人物绘画
             player.drawPlayer(g);
+            //System.out.println(player.playerX+" "+player.playerY);
             g.dispose();
         } else {
             g.setColor(Color.BLACK);
@@ -119,20 +124,20 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         if (play) {
             //walk Left and Right
             if (rightKeyPressed) {
-                player.moveRight();
+                mapGenerator.moveLeft();
 
             } else if (leftKeyPressed) {
-                player.moveLeft();
+                mapGenerator.moveRight();
+
 
             }
             //margin checking
-            player.marginDetection();
+            mapGenerator.marginDetection();
             //Jumping UI 2.0
             player.jumping();
-            player.groundLevel = mapGenerator.currGround(player.player_col);
             //System.out.println(player.groundLevel);
 
-            player.player_col = (player.playerX / (width / col));
+            player.player_col = ((mapGenerator.getOffset() / -50) + 16);
             player.player_row = (player.playerY / (height / row));
         }
         repaint();
@@ -158,12 +163,14 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
             player.onTheGround();
         } else if (e.getKeyCode() == KeyEvent.VK_DOWN) {
             if (player.moveDir) {
-                specialEffect.addBullet(player.playerX + 40, player.playerY - 55, player.moveDir);
+                specialEffect.addBullet(840, player.playerY - 55, true, player.getItem().getCurrWeaponName());
             } else {
-                specialEffect.addBullet(player.playerX - 40, player.playerY - 55, player.moveDir);
+                specialEffect.addBullet(760, player.playerY - 55, false, player.getItem().getCurrWeaponName());
             }
 
             //System.out.println("bullet added");
+        } else if (e.getKeyCode() == KeyEvent.VK_E) {
+            player.gunChange();
         }
     }
 
@@ -177,5 +184,49 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener {
         leftKeyPressed = true;
         rightKeyPressed = false;
         player.moveDir = false;
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        //x=e.getX();
+        //y=e.getY();
+        //System.out.println(x+" "+y);
+        if (player.moveDir) {
+            specialEffect.addBullet(840, player.playerY - 55, true, player.getItem().getCurrWeaponName());
+        } else {
+            specialEffect.addBullet(760, player.playerY - 55, false, player.getItem().getCurrWeaponName());
+        }
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+        x = e.getX();
+        y = e.getY();
+        System.out.println(x + " " + y);
     }
 }

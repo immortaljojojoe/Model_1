@@ -14,14 +14,22 @@ public class SpecialEffect {
     public SpecialEffect() {
     }
 
-    public void addBullet(int x, int y, boolean dir) {
+    public void addBullet(int x, int y, boolean dir, String name) {
         if (bulletNum < 30) {
-            bullets.add(new Bullet(x, y, dir));
+            if (name.equals("ak47")) {
+                bullets.add(new Bullet_Ak47(x, y, dir));
+            } else {
+                bullets.add(new Bullet_DesertEagle(x, y, dir));
+            }
             bulletNum++;
         } else {
             if (reloadTime <= 0) {
                 bullets = new ArrayList<>(30);
-                bullets.add(new Bullet(x, y, dir));
+                if (name.equals("ak47")) {
+                    bullets.add(new Bullet_Ak47(x, y, dir));
+                } else {
+                    bullets.add(new Bullet_DesertEagle(x, y, dir));
+                }
                 bulletNum = 1;
                 reloadTime = 200;
             } else {

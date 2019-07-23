@@ -11,20 +11,23 @@ public class MapGenerator {
     private Block[][] map;
     private int blockWidth;
     private int blockHeight;
+    //TODO offset
+    //x轴偏差值
+    //
+    private int offset;
 
-    public MapGenerator(int width, int height){
+    public MapGenerator(int row, int col) {
         blockWidth = 50;
         blockHeight = 50;
-        int numBlockY = height / blockHeight;
-        int numBlockX = width / blockWidth;
-        map = new Block[numBlockX][numBlockY];
+        offset = -blockWidth * col / 2;
+        map = new Block[col][row];
         //System.out.println(numBlockY+""+numBlockX);
 
-        for (int i = 0; i < numBlockX; i++) {
-            for (int j = 0; j < numBlockY; j++) {
-                if (j > (numBlockY / 4 * 3)) {
+        for (int i = 0; i < col; i++) {
+            for (int j = 0; j < row; j++) {
+                if (j > (row / 4 * 3)) {
                     map[i][j] = new Block_001dirt();
-                } else if (j == (numBlockY / 4 * 3)) {
+                } else if (j == (row / 4 * 3)) {
                     map[i][j] = new Block_002grass();
                 } else {
                     map[i][j] = new Block();
@@ -32,6 +35,7 @@ public class MapGenerator {
 
             }
         }
+        /*
         map[3][12] = new Block_001dirt();
         map[3][11] = new Block_001dirt();
         map[3][10] = new Block_002grass();
@@ -42,6 +46,7 @@ public class MapGenerator {
         map[7][12] = new Block_001dirt();
         map[8][12] = new Block_001dirt();
         map[9][12] = new Block_001dirt();
+        */
 
 
     }
@@ -50,7 +55,7 @@ public class MapGenerator {
         for (int i = 0; i < map.length; i++) {
             for (int j = 0; j < map[0].length; j++) {
                 if (map[i][j].getValue() > 0) {
-                    map[i][j].drawBlock(g, i, j, blockWidth, blockHeight);
+                    map[i][j].drawBlock(g, i, j, blockWidth, blockHeight, offset);
                 }
             }
         }
@@ -60,16 +65,35 @@ public class MapGenerator {
         map[row][col].setValue(value);
     }
 
+    //TODO 重新设置人物位置偏移导致的地图移动
     //Give back The Current GroundLevel based on the player col given
     public int currGround(int player_col) {
-        int curr = map[player_col].length * blockHeight;
-        for (int j = 0; j < map[player_col].length; j++) {
-            if (map[player_col][j].getValue() != 0) {
-                curr = j * blockHeight;
-                break;
-            }
+        //stub
+        return 0;
+    }
+
+    public void moveLeft() {
+        offset -= 6;
+    }
+
+    public void moveRight() {
+        offset += 6;
+    }
+
+    //边缘检测， 检测是不是撞到墙了
+    public void marginDetection() {
+        //Right margin detection
+        if (offset >= 780) {
+            offset = 780;
         }
-        return curr;
+        //playerLeft margin detection
+        if (offset <= -4180) {
+            offset = -4180;
+        }
+    }
+
+    public int getOffset() {
+        return offset;
     }
 
 }

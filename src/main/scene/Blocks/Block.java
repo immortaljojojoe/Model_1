@@ -19,7 +19,7 @@ public class Block {
         this.value = v;
     }
 
-    public void drawBlock(Graphics2D g, int i, int j, int w, int h) {
+    public void drawBlock(Graphics2D g, int i, int j, int w, int h, int offset) {
         //i and j are the location in cells
         //w and h are the blocks width and the blocks height
         //g.setColor(new Color(0, 240, 250));

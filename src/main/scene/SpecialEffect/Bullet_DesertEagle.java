@@ -2,27 +2,21 @@ package scene.SpecialEffect;
 
 import java.awt.*;
 
-class Bullet {
+public class Bullet_DesertEagle extends Bullet {
     //子弹飞行速度
-    boolean activation = false;
-    int CoordX, CoordY;
-    boolean dir;
-    private int speed = 10;
+    private int speed = 20;
 
     //dir代表的是子弹的飞行方向（左false右true）
-    Bullet(int x, int y, boolean dir) {
-        activation = true;
-        CoordX = x;
-        CoordY = y;
-        this.dir = dir;
+    Bullet_DesertEagle(int x, int y, boolean dir) {
+        super(x, y, dir);
     }
 
     void drawBullet(Graphics2D g) {
-        g.setColor(new Color(150, 150, 150));
-        g.fillOval(CoordX, CoordY, 5, 5);
-        g.setColor(new Color(70, 70, 70));
+        g.setColor(new Color(250, 250, 0));
+        g.fillRect(CoordX, CoordY, 5, 3);
+        g.setColor(new Color(0, 0, 20));
         g.setStroke(new BasicStroke(1));
-        g.drawOval(CoordX, CoordY, 5, 5);
+        g.drawOval(CoordX, CoordY, 5, 3);
 
     }
 
