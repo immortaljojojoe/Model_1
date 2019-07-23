@@ -5,12 +5,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-class DesertEagle extends Weapon {
+class Weapon_DesertEagle extends Weapon {
+    //图片宽度为22 高度为13
     private String name = "desertEagle";
     private int dmg = 10;
     private BufferedImage left, right;
 
-    DesertEagle() {
+    Weapon_DesertEagle() {
         try {
             left = ImageIO.read(getClass().getResourceAsStream("/desertEagle_left.png"));
             right = ImageIO.read(getClass().getResourceAsStream("/desertEagle_right.png"));

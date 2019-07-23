@@ -1,6 +1,7 @@
 package utility;
 
 import data.Player;
+import scene.Creatures.Creature;
 import scene.Sky;
 import scene.SpecialEffect.SpecialEffect;
 import scene.Sun;
@@ -32,6 +33,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener, Mou
     private MapGenerator mapGenerator;
     //特效
     private SpecialEffect specialEffect;
+    //生物
+    private Creature creature;
     //检测左右键是否被按下
     private boolean rightKeyPressed = false;
     private boolean leftKeyPressed = false;
@@ -48,6 +51,7 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener, Mou
         play = true;
         mapGenerator = new MapGenerator(row, col);
         specialEffect = new SpecialEffect();
+        creature = new Creature();
         player = new Player();
         addKeyListener(this);
         addMouseListener(this);
@@ -100,6 +104,8 @@ public class GamePlay extends JPanel implements KeyListener, ActionListener, Mou
             g.fillRect(70, 7, player.hitpoint, 12);
             //特效绘画
             specialEffect.drawEffect((Graphics2D) g);
+            //生物绘画
+            creature.drawMonsters((Graphics2D) g, mapGenerator.getOffset());
 
             //人物绘画
             player.drawPlayer(g);

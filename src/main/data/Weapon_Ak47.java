@@ -5,12 +5,13 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-class Ak47 extends Weapon {
+class Weapon_Ak47 extends Weapon {
+    //图片高度为27 宽度为73
     private String name = "ak47";
     private int dmg = 30;
     private BufferedImage left, right;
 
-    Ak47() {
+    Weapon_Ak47() {
         try {
             left = ImageIO.read(getClass().getResourceAsStream("/ak47_left.png"));
             right = ImageIO.read(getClass().getResourceAsStream("/ak47_right.png"));

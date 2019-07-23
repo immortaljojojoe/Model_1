@@ -13,10 +13,10 @@ public class Item {
 
     void addWeapon(String name) {
         if (name.equals("ak47")) {
-            weapons.add(new Ak47());
+            weapons.add(new Weapon_Ak47());
             numOfGuns++;
         } else if (name.equals("desertEagle")) {
-            weapons.add(new DesertEagle());
+            weapons.add(new Weapon_DesertEagle());
             numOfGuns++;
         } else {
             System.out.println("the name entered cou be wrong");

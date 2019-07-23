@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class Player {
+    //player图片高度为73 宽度为28 中心轴为19
     public int player_col = 50;
     // HP :血量
     public int hitpoint = 100;
@@ -27,12 +28,12 @@ public class Player {
     private Item item;
     //private int player_width=20;
     //弹跳力剩余
-    int energy_up = 0;
+    private int energy_up = 0;
     //向下冲击力计算
-    int energy_down = 0;
+    private int energy_down = 0;
     //起跳高度 以（n+1）n/2为准//
     //修改以改变玩家起跳力度（默认基值 14）《《《《《《《《《《《《《《《《《《《《《《《《《《《《《《《
-    int jumpEnergy = 14;//height jump
+    private int jumpEnergy = 14;//height jump
     //人物奔跑速度
     //修改以改变人物奔跑速度（默认基值 4）《《《《《《《《《《《《《《《《《《《《《《
     int speed = 4;//the moving speed
